@@ -5,7 +5,7 @@ from .base import LLMClient
 class GroqClient(LLMClient):
     def __init__(self):
         self.client = groq.AsyncGroq(api_key=os.getenv("GROQ_API_KEY"))
-        self.model = "llama3-70b-8192"
+        self.model = "llama-3.3-70b-versatile"
 
     async def generate(self, prompt: str) -> str:
         try:

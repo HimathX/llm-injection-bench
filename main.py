@@ -1,6 +1,19 @@
-def main():
-    print("Hello from llm-injection-bench!")
+import argparse
+import asyncio
+from src.evaluator import run_evaluation
 
+def main():
+    parser = argparse.ArgumentParser(description="LLM Injection Benchmarking")
+    parser.add_argument("--phase", type=int, choices=[1, 2], default=1, help="Which phase to run")
+    parser.add_argument("--limit", type=int, default=5, help="Number of injections per tier per model")
+    
+    args = parser.parse_args()
+    
+    if args.phase == 1:
+        print("Starting Phase 1 Benchmark (Vulnerability Rates)...")
+        asyncio.run(run_evaluation(limit=args.limit))
+    elif args.phase == 2:
+        print("Phase 2 (Defenses) is not implemented yet.")
 
 if __name__ == "__main__":
     main()

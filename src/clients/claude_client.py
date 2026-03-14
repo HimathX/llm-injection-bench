@@ -5,8 +5,7 @@ from .base import LLMClient
 class ClaudeClient(LLMClient):
     def __init__(self):
         self.client = anthropic.AsyncAnthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-        # Using the latest haiku to match the project plan intent "claude-haiku-4-5" (likely intended 3.5)
-        self.model = "claude-3-5-haiku-latest"
+        self.model = "claude-haiku-4-5"
 
     async def generate(self, prompt: str) -> str:
         try:
