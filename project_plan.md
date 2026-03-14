@@ -37,16 +37,16 @@ Science / Substack.
 
 ### Setup
 
-- [ ] Initialize project with `uv`:
+- [x] Initialize project with `uv`:
   ```bash
   uv init llm-injection-bench
   cd llm-injection-bench
   uv venv
   source .venv/bin/activate   # Windows: .venv\Scripts\activate
   uv add google-generativeai anthropic groq pandas matplotlib \
-         datasets huggingface_hub python-dotenv mistune
+         datasets huggingface_hub python-dotenv mistune flask
   ```
-- [ ] Configure API keys in `.env` (copy from `.env.example`):
+- [x] Configure API keys in `.env` (copy from `.env.example`):
   - `GOOGLE_API_KEY` — from [aistudio.google.com](https://aistudio.google.com)
   - `ANTHROPIC_API_KEY` — from [console.anthropic.com](https://console.anthropic.com)
   - `GROQ_API_KEY` — from [console.groq.com](https://console.groq.com)
@@ -58,23 +58,23 @@ Science / Substack.
 > dataset of real-world injections found in the wild, stripped out the gamified CTF
 > artifacts, and tested the models against actual adversarial payloads."
 
-- [ ] Ingest `deepset/prompt-injections` via HuggingFace `datasets` library
-- [ ] Ingest `prompt-injection-in-the-wild` from Kaggle
-- [ ] Run `dataset/curate.py` to merge and split:
+- [x] Ingest `deepset/prompt-injections` via HuggingFace `datasets` library
+- [x] Ingest `prompt-injection-in-the-wild` from Kaggle
+- [x] Run `dataset/curate.py` to merge and split:
   - `label=0` rows → `dataset/benign_samples.json` (target: 50 clean samples)
   - `label=1` rows → manual audit queue
-- [ ] **Manual audit of adversarial rows:**
+- [x] **Manual audit of adversarial rows:**
   - ✅ Keep: real indirect injections targeting agentic tasks
   - ✅ Keep: data exfiltration attempts, instruction hijacking
   - ❌ Discard: CTF artifacts (string-matching games, contrived flag captures)
   - ❌ Discard: hypothetical/academic prompts with no real-world attack objective
   - Tag survivors as `L1` or `L2` in `payloads.json`
-- [ ] Document **every discard decision** in `dataset/CURATION_NOTES.md`
+- [x] Document **every discard decision** in `dataset/CURATION_NOTES.md`
   - This becomes your methodology section. Write it as you go, not after.
 
 ### Payload Engineering
 
-- [ ] `dataset/payloads.json` — 3 attack tiers:
+- [x] `dataset/payloads.json` — 3 attack tiers:
 
   **L1 — Naive Override** *(sourced from curated dataset)*
   ```
@@ -214,6 +214,7 @@ llm-injection-bench/
 │   ├── defenses/
 │   │   ├── embedding_filter.py   # Cosine similarity defense (Phase 2)
 │   │   └── llm_judge.py          # LLM-as-a-Judge defense (Phase 2)
+│   ├── webhook_server.py         # Tiny Flask app to catch L3 demo pings
 │   └── evaluator.py              # Core async execution + scoring loop
 ├── results/
 │   ├── phase1_raw.csv
