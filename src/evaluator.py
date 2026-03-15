@@ -103,7 +103,7 @@ async def run_evaluation(limit: int = 5):
     tasks = []
     for client_name, client in clients.items():
         for tier, payloads in tiers.items():
-            selected_payloads = payloads[:limit]
+            selected_payloads = payloads if limit <= 0 else payloads[:limit]
             for p in selected_payloads:
                 if not benign_samples:
                     benign = "Please summarize."
