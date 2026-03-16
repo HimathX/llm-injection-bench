@@ -1,6 +1,7 @@
 import os
 import json
 import math
+import asyncio
 from google import genai
 
 class SemanticFilter:
@@ -35,11 +36,27 @@ class SemanticFilter:
         if not prompt.strip():
             return 0.0
             
-        result = await self.client.aio.models.embed_content(
-            model=self.model,
-            contents=prompt
-        )
-        embedding = result.embeddings[0].values
+        max_retries = 5
+        for attempt in range(max_retries):
+            try:
+                result = await self.client.aio.models.embed_content(
+                    model=self.model,
+                    contents=prompt
+                )
+                embedding = result.embeddings[0].values
+                break
+            except Exception as e:
+                # Handle 503, 429 or other transient errors
+                if ("503" in str(e) or "429" in str(e) or "UNAVAILABLE" in str(e)) and attempt < max_retries - 1:
+                    wait_time = (2 ** attempt) + (0.1 * attempt)
+                    print(f"[SemanticFilter] API Busy. Retrying in {wait_time:.1f}s... (Attempt {attempt + 1}/{max_retries})")
+                    await asyncio.sleep(wait_time)
+                    continue
+                
+                print(f"[SemanticFilter Error] {e}")
+                return 0.0
+        else:
+            return 0.0
         
         max_sim = -1.0
         for ref_emb in self.reference_embeddings:

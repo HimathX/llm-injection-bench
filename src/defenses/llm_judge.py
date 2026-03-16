@@ -1,4 +1,5 @@
 import os
+import asyncio
 from google import genai
 
 class LLMJudge:
@@ -19,15 +20,24 @@ class LLMJudge:
             return False
             
         full_prompt = f"{self.system_prompt}\n\nUSER INPUT:\n{prompt}"
-        try:
-            response = await self.client.aio.models.generate_content(
-                model=self.model,
-                contents=full_prompt
-            )
-            result_text = response.text.strip().upper() if response.text else ""
-            # If the model says INSTRUCTIONS, it's flagged as malicious/blocked
-            return "INSTRUCTIONS" in result_text
-        except Exception as e:
-            print(f"[LLMJudge Error] {e}")
-            # In a benchmark, fail open (False) so the pipeline continues
-            return False
+        
+        max_retries = 5
+        for attempt in range(max_retries):
+            try:
+                response = await self.client.aio.models.generate_content(
+                    model=self.model,
+                    contents=full_prompt
+                )
+                result_text = response.text.strip().upper() if response.text else ""
+                return "INSTRUCTIONS" in result_text
+            except Exception as e:
+                # Handle 503 UNAVAILABLE or other transient errors
+                if ("503" in str(e) or "UNAVAILABLE" in str(e)) and attempt < max_retries - 1:
+                    wait_time = (2 ** attempt) + (0.1 * attempt)
+                    print(f"[LLMJudge] 503 Detected. Retrying in {wait_time:.1f}s... (Attempt {attempt + 1}/{max_retries})")
+                    await asyncio.sleep(wait_time)
+                    continue
+                
+                print(f"[LLMJudge Error] {e}")
+                return False
+        return False
