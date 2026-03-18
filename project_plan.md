@@ -164,10 +164,10 @@ Science / Substack.
 
 ### Pre-launch Checklist (do before writing a single word)
 
-- [ ] Phase 1 CSV exists and has been manually audited
-- [ ] Phase 2 CSV exists with latency numbers
+- [x] Phase 1 CSV exists and has been manually audited
+- [x] Phase 2 CSV exists with latency numbers
 - [ ] At least one genuine bypass example documented
-- [ ] `dataset/CURATION_NOTES.md` complete
+- [x] `dataset/CURATION_NOTES.md` complete
 - [ ] README findings table populated with real numbers
 - [ ] `CONTRIBUTING.md` written with payload submission format
 
