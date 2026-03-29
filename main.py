@@ -2,9 +2,11 @@ import argparse
 import asyncio
 from src.evaluator import run_evaluation
 from src.evaluator_phase2 import run_phase2
+from src.evaluator_phase3 import run_phase3
+
 def main():
     parser = argparse.ArgumentParser(description="LLM Injection Benchmarking")
-    parser.add_argument("--phase", type=int, choices=[1, 2], default=1, help="Which phase to run")
+    parser.add_argument("--phase", type=int, choices=[1, 2, 3], default=1, help="Which phase to run")
     parser.add_argument("--limit", type=int, default=5, help="Number of injections per tier per model")
     
     args = parser.parse_args()
@@ -15,6 +17,9 @@ def main():
     elif args.phase == 2:
         print("Starting Phase 2 Benchmark (Defense Metrics)...")
         asyncio.run(run_phase2(limit=args.limit))
+    elif args.phase == 3:
+        print("Starting Phase 3 Benchmark (Spotlighting + DataSentinel + CombineAttacker)...")
+        asyncio.run(run_phase3(limit=args.limit))
 
 if __name__ == "__main__":
     main()

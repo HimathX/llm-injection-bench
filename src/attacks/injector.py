@@ -1,3 +1,15 @@
+from .combine_attacker import combine_attack
+
+
+def inject_combined(benign_prompt: str, malicious_payload: str) -> str:
+    """
+    Like inject_payload but applies the CombineAttacker transformation before
+    appending (Escape Characters + Fake Completion + Context-Ignoring prefix).
+    """
+    wrapped = combine_attack(malicious_payload)
+    return f"{benign_prompt}{wrapped}"
+
+
 def inject_payload(benign_prompt: str, malicious_payload: str) -> str:
     """
     Combines a benign user task with an adversarial payload.
