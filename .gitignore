@@ -9,3 +9,4 @@ dataset/prompt-injection-in-the-wild/predictionguard_df.csv
 .claude
 Open-Prompt-Injection
 *.zip
+*.pdf
