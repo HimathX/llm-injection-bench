@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LLM Prompt Injection Benchmark — Research Dashboard</title>
+    <title>LLM Prompt Injection Benchmark  Research Dashboard</title>
 
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -838,7 +838,7 @@
                   class="px-1.5 py-0.5 bg-accent-green/15 text-accent-green rounded text-xs"
                   >5</span
                 >
-                <span>Browser fetches img src — HTTP GET</span>
+                <span>Browser fetches img src  HTTP GET</span>
               </div>
               <div class="text-center text-gray-600">|</div>
               <div class="flex items-center gap-2">
@@ -878,8 +878,8 @@
           <p class="text-sm text-gray-400 mt-1">
             Approximately 1 in 5 trials resulted in data exfiltration via
             rendered markdown. The model reproduced the exfiltration payload in
-            its output. In any system that renders markdown — a Slack bot, a web
-            dashboard, or an agent UI — this constitutes a live data
+            its output. In any system that renders markdown  a Slack bot, a web
+            dashboard, or an agent UI  this constitutes a live data
             exfiltration. This was verified by piping output through mistune and
             confirming a real HTTP request to webhook.site.
           </p>
@@ -991,7 +991,7 @@
             <p
               class="text-xs font-semibold text-gray-300 uppercase tracking-wide"
             >
-              Finding 1 — Naive Attacks Neutralized
+              Finding 1  Naive Attacks Neutralized
             </p>
             <p class="text-sm text-gray-400 mt-1">
               L1 naive attacks achieve 0% success across all three models.
@@ -1004,7 +1004,7 @@
             <p
               class="text-xs font-semibold text-gray-300 uppercase tracking-wide"
             >
-              Finding 2 — Context Shift Dominates
+              Finding 2  Context Shift Dominates
             </p>
             <p class="text-sm text-gray-400 mt-1">
               L2 Context Shift is the dominant attack vector. Gemini showed a
@@ -1017,12 +1017,12 @@
             <p
               class="text-xs font-semibold text-gray-300 uppercase tracking-wide"
             >
-              Finding 3 — Exfiltration Works in the Wild
+              Finding 3  Exfiltration Works in the Wild
             </p>
             <p class="text-sm text-gray-400 mt-1">
               L3 exfiltration produces real HTTP requests. 12.5% of trials
               across all models generated markdown image tags that triggered
-              webhook requests. This is not theoretical — live webhook firing
+              webhook requests. This is not theoretical  live webhook firing
               was verified. Any system rendering LLM output as markdown is at
               risk.
             </p>
@@ -1031,7 +1031,7 @@
             <p
               class="text-xs font-semibold text-gray-300 uppercase tracking-wide"
             >
-              Finding 4 — Spotlighting Is Most Effective
+              Finding 4  Spotlighting Is Most Effective
             </p>
             <p class="text-sm text-gray-400 mt-1">
               Spotlighting achieved 100% block rate on L1 and L3, and 82.4% on
@@ -1044,7 +1044,7 @@
             <p
               class="text-xs font-semibold text-gray-300 uppercase tracking-wide"
             >
-              Finding 5 — False Positive Problem
+              Finding 5  False Positive Problem
             </p>
             <p class="text-sm text-gray-400 mt-1">
               LLM-Judge flagged 18% of benign inputs as malicious, making it
