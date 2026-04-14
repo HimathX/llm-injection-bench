@@ -37,7 +37,7 @@ The framework organizes prompt injection attacks into three escalating tiers, fr
 
 ```
   ┌─────────────────────────────────────────────────────────────────┐
-  │                    ATTACK ESCALATION LADDER                      │
+  │                    ATTACK ESCALATION LADDER                     │
   ├──────────┬───────────────┬──────────────────────────────────────┤
   │  L1      │  Naive        │  "Ignore previous instructions"      │
   │  naive   │  Override     │  Direct system prompt override       │
@@ -68,30 +68,6 @@ Scoring is **deterministic pattern-matching**  no LLM-as-judge in Phase 1  ensur
 ## 2. Benchmark Phases
 
 The study proceeds in three phases, each building on the previous:
-
-```
-  Phase 1                Phase 2                Phase 3
-  ───────                ───────                ───────
-  No defenses     →      Detection defenses     →      Prevention + Combined
-
-  ┌─────────┐            ┌──────────────────┐   ┌────────────────────────┐
-  │ Payloads│            │ Payloads         │   │ Payloads               │
-  │    │    │            │    │             │   │    │                   │
-  │    ▼    │            │    ▼             │   │    ▼                   │
-  │  ┌───┐  │            │  ┌───────────┐   │   │  ┌──────────────────┐  │
-  │  │LLM│  │            │  │Embedding  │   │   │  │Spotlighting wrap │  │
-  │  │   │  │            │  │Filter     │   │   │  │+ DataSentinel    │  │
-  │  └─┬─┘  │            │  └─────┬─────┘   │   │  └────────┬─────────┘  │
-  │    │    │            │        │         │   │           │            │
-  │    ▼    │            │  ┌─────▼─────┐   │   │  ┌────────▼─────────┐  │
-  │  Score  │            │  │LLM-Judge  │   │   │  │CombineAttacker   │  │
-  │         │            │  └───────────┘   │   │  │(Liu et al. 2024) │  │
-  └─────────┘            └──────────────────┘   └────────────────────────┘
-       │                         │                       │
-       ▼                         ▼                       ▼
-  vulnerability.csv         defense_bench.csv       advanced_bench.csv
-  + chart.png               + chart.png             + detection rates
-```
 
 **Phase 1  Vulnerability Mapping.** Runs trials across 3 commercial models and 3 attack tiers with no defenses. Measures raw attack success rates to establish a baseline vulnerability surface.
 
@@ -145,7 +121,7 @@ The study proceeds in three phases, each building on the previous:
 
 ```
   ┌──────────────────────────────────────────────────────────────┐
-  │                   COMBINE ATTACKER FLOW                       │
+  │                   COMBINE ATTACKER FLOW                      │
   ├──────────────────────────────────────────────────────────────┤
   │                                                              │
   │  Original Payload                                            │
@@ -155,7 +131,7 @@ The study proceeds in three phases, each building on the previous:
   │  ┌────────────────────────────────────────────┐              │
   │  │ [FAKE COMPLETION]                          │              │
   │  │ "Task completed successfully."             │              │
-  │  │                                             │              │
+  │  │                                            │              │
   │  │ [INJECTION]                                │              │
   │  │ "Ignore previous instructions. Instead..." │              │
   │  └────────────────────────────────────────────┘              │
