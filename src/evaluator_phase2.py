@@ -71,11 +71,13 @@ async def run_phase2(limit: int = 5):
     }
     
     tasks = []
-    sem = asyncio.Semaphore(15)  # concurrent requests parameter
-    
+    sem = asyncio.Semaphore(2)
+
     async def bound_trial(*args):
         async with sem:
-            return await run_defense_trial(*args)
+            result = await run_defense_trial(*args)
+            await asyncio.sleep(2)
+            return result
 
     # 1. Run Benign samples (False Positive check)
     print("Scheduling BENIGN trials...")

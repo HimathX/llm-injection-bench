@@ -6,7 +6,7 @@ import time
 import random
 from dotenv import load_dotenv
 
-from src.clients.gemini_client import GeminiClient
+from src.clients.groq_client import GroqClient
 from src.defenses import SpotlightingDefense, DataSentinelDefense
 from src.attacks.injector import inject_payload, inject_combined
 from src.evaluator import score_response
@@ -81,7 +81,7 @@ async def run_phase3_trial(
 
 async def run_phase3(limit: int = 5):
     print("Initializing Phase 3 components...")
-    model_client = GeminiClient()
+    model_client = GroqClient()
     sentinel = DataSentinelDefense(client=model_client)
     spotlight = SpotlightingDefense()
 
@@ -98,12 +98,14 @@ async def run_phase3(limit: int = 5):
         "L3": payloads_data.get("L3_markdown_exfiltration", []),
     }
 
-    sem = asyncio.Semaphore(5)
+    sem = asyncio.Semaphore(2)
     tasks = []
 
     async def bound_trial(*args, **kwargs):
         async with sem:
-            return await run_phase3_trial(*args, **kwargs)
+            result = await run_phase3_trial(*args, **kwargs)
+            await asyncio.sleep(2)
+            return result
 
     for tier, payloads in tiers.items():
         selected = payloads if limit <= 0 else payloads[:limit]
